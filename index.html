@@ -2,68 +2,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phonics Hero</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Phonics Master Ultimate</title>
     <style>
-        body { font-family: 'Verdana', sans-serif; background-color: #E0F7FA; text-align: center; margin: 0; padding: 20px; touch-action: manipulation; }
+        body { font-family: 'Verdana', sans-serif; background-color: #E0F7FA; text-align: center; margin: 0; padding: 15px; -webkit-tap-highlight-color: transparent; }
         
-        /* The Card Container */
+        /* Container */
         .game-card {
             background: white;
             max-width: 600px;
-            margin: 20px auto;
+            margin: 0 auto;
             border-radius: 25px;
-            padding: 30px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            border: 5px solid #00BCD4;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            border: 6px solid #00ACC1;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        h1 { color: #FF5722; margin-bottom: 5px; }
-        p { color: #555; font-size: 18px; }
-
-        /* The Big Phonics Word */
+        h1 { color: #00838F; margin: 0 0 15px 0; font-size: 26px; }
+        
+        /* The Big Text */
         #word-display {
-            font-size: 80px;
+            font-size: 85px;
             font-weight: 900;
-            color: #333;
-            margin: 30px 0;
-            letter-spacing: 5px;
+            color: #37474F;
+            margin: 20px 0;
+            letter-spacing: 2px;
+            line-height: 1.1;
         }
 
-        /* The Parent Guide Box */
+        /* Progress Bar (1/26) */
+        #progress { font-size: 14px; color: #999; margin-bottom: 10px; font-weight: bold; }
+
+        /* Guide Box */
         .guide-box {
             background: #FFF3E0;
-            border-left: 6px solid #FF9800;
+            border: 2px solid #FFB74D;
             color: #E65100;
-            padding: 15px;
+            padding: 12px 20px;
             text-align: left;
             font-size: 18px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.05);
         }
 
-        /* Buttons */
-        button {
+        /* Audio Helper Button */
+        .audio-btn {
+            background: #FFECB3;
+            border: 2px solid #FFD54F;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
             font-size: 22px;
-            padding: 15px 40px;
+            cursor: pointer;
+            color: #F57F17;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .audio-btn:active { transform: scale(0.9); }
+
+        /* Main Action Buttons */
+        button.action-btn {
+            font-size: 22px;
+            padding: 18px 0;
             border-radius: 50px;
             border: none;
             cursor: pointer;
-            margin: 10px;
+            margin: 8px 0;
             font-weight: bold;
-            transition: transform 0.1s;
-            width: 90%;
-            max-width: 300px;
+            width: 100%;
+            color: white;
+            transition: all 0.1s;
+            box-shadow: 0 6px rgba(0,0,0,0.2);
         }
-        button:active { transform: scale(0.95); }
+        button.action-btn:active { transform: translateY(4px); box-shadow: 0 2px rgba(0,0,0,0.2); }
         
-        .btn-green { background-color: #4CAF50; color: white; box-shadow: 0 5px #2E7D32; }
-        .btn-blue { background-color: #2196F3; color: white; box-shadow: 0 5px #1565C0; }
-        .btn-orange { background-color: #FF9800; color: white; box-shadow: 0 5px #EF6C00; }
+        .btn-check { background-color: #43A047; }
+        .btn-next { background-color: #1E88E5; }
+        
+        /* Menu Buttons */
+        .menu-btn { 
+            background-color: #00BCD4; 
+            color: white; 
+            margin: 8px 0; 
+            box-shadow: 0 5px #0097A7; 
+            font-size: 18px; 
+            padding: 15px; 
+            width: 100%; 
+            border-radius: 15px; 
+            border:none; 
+            font-weight:bold; 
+            cursor: pointer;
+        }
+        .menu-btn:active { transform: translateY(3px); box-shadow: 0 2px #0097A7; }
 
-        /* The Reward */
-        #reward-area { font-size: 100px; animation: popIn 0.5s; margin: 20px 0; }
-        @keyframes popIn { 0% { transform: scale(0); } 80% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        /* Rewards */
+        #reward-area { font-size: 110px; animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); margin: 10px 0; }
+        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
 
         .hidden { display: none; }
     </style>
@@ -73,106 +117,216 @@
     <div class="game-card">
         
         <div id="menu-screen">
-            <h1>🚀 Phonics Hero</h1>
-            <p>Choose a Mission:</p>
-            <button class="btn-blue" onclick="startGame('level1')">Level 1: ABC Sounds</button>
-            <button class="btn-blue" onclick="startGame('level2')">Level 2: The 'AT' Family</button>
-            <button class="btn-blue" onclick="startGame('level3')">Level 3: Harder Words</button>
-            <button class="btn-blue" onclick="startGame('level4')">Level 4: Sentences</button>
+            <h1>🎓 Phonics Ultimate</h1>
+            <p style="color:#666; font-size:16px;">Choose your challenge:</p>
+            <button class="menu-btn" onclick="startGame('level1')">Level 1: All 26 Letters (Aa-Zz)</button>
+            <button class="menu-btn" onclick="startGame('level2')">Level 2: Word Families (Mix)</button>
+            <button class="menu-btn" onclick="startGame('level3')">Level 3: Blends & Digraphs</button>
+            <button class="menu-btn" onclick="startGame('level4')">Level 4: Sentence Reader</button>
         </div>
 
         <div id="game-screen" class="hidden">
-            <div id="guide-text" class="guide-box"></div>
+            <div id="progress"></div>
+
+            <div class="guide-box">
+                <div>
+                    <span style="font-size:12px; display:block; color:#D84315;">PARENT SAY:</span>
+                    <span id="guide-text" style="font-weight:bold;"></span>
+                </div>
+                <button class="audio-btn" onclick="playHelpAudio()" title="Hear Help">🔊</button>
+            </div>
 
             <div id="word-display"></div>
-
             <div id="reward-area" class="hidden"></div>
 
-            <button id="check-btn" class="btn-green" onclick="checkAnswer()">Reveal Picture! 🔍</button>
+            <button id="check-btn" class="action-btn btn-check" onclick="checkAnswer()">Check Answer! ✨</button>
             
             <div id="nav-buttons" class="hidden">
-                <button class="btn-orange" onclick="nextWord()">Next Mission ➡️</button>
-                <br>
-                <button style="background:none; color:#999; box-shadow:none; margin-top:10px; font-size:16px;" onclick="showMenu()">Exit to Menu</button>
+                <button class="action-btn btn-next" onclick="nextWord()">Next Card ➡️</button>
+                <div style="margin-top:15px;">
+                    <span style="color:#999; font-size:14px; text-decoration:underline; cursor:pointer;" onclick="showMenu()">Back to Menu</span>
+                </div>
             </div>
         </div>
 
     </div>
 
     <script>
-        // --- THE DATA ---
+        // --- DATA LIBRARY ---
         const gameData = {
             level1: [
-                { text: "a", guide: "Say: /æ/ (Short 'a' like Apple)", reward: "🍎" },
-                { text: "t", guide: "Say: /t/ (Sharp sound like Tiger)", reward: "🐯" },
-                { text: "s", guide: "Say: /s/ (Hiss like Snake)", reward: "🐍" },
-                { text: "p", guide: "Say: /p/ (Pop like Popcorn)", reward: "🍿" }
+                { t: "Aa", g: "/æ/ (Apple)", r: "🍎", audio: "Apple" },
+                { t: "Bb", g: "/b/ (Ball)", r: "⚽", audio: "Ball" },
+                { t: "Cc", g: "/k/ (Cat)", r: "🐱", audio: "Cat" },
+                { t: "Dd", g: "/d/ (Dog)", r: "🐶", audio: "Dog" },
+                { t: "Ee", g: "/e/ (Egg)", r: "🥚", audio: "Egg" },
+                { t: "Ff", g: "/f/ (Fish)", r: "🐟", audio: "Fish" },
+                { t: "Gg", g: "/g/ (Goat)", r: "🐐", audio: "Goat" },
+                { t: "Hh", g: "/h/ (Hat)", r: "🎩", audio: "Hat" },
+                { t: "Ii", g: "/i/ (Igloo)", r: "🧊", audio: "Igloo" },
+                { t: "Jj", g: "/j/ (Jam)", r: "🍯", audio: "Jam" },
+                { t: "Kk", g: "/k/ (Kite)", r: "Vk", audio: "Kite" },
+                { t: "Ll", g: "/l/ (Lion)", r: "🦁", audio: "Lion" },
+                { t: "Mm", g: "/m/ (Moon)", r: "🌙", audio: "Moon" },
+                { t: "Nn", g: "/n/ (Net)", r: "🥅", audio: "Net" },
+                { t: "Oo", g: "/o/ (Octopus)", r: "🐙", audio: "Octopus" },
+                { t: "Pp", g: "/p/ (Pig)", r: "🐷", audio: "Pig" },
+                { t: "Qq", g: "/kw/ (Queen)", r: "👑", audio: "Queen" },
+                { t: "Rr", g: "/r/ (Rainbow)", r: "🌈", audio: "Rainbow" },
+                { t: "Ss", g: "/s/ (Sun)", r: "☀️", audio: "Sun" },
+                { t: "Tt", g: "/t/ (Tiger)", r: "🐯", audio: "Tiger" },
+                { t: "Uu", g: "/u/ (Umbrella)", r: "☂️", audio: "Umbrella" },
+                { t: "Vv", g: "/v/ (Van)", r: "🚐", audio: "Van" },
+                { t: "Ww", g: "/w/ (Web)", r: "🕸️", audio: "Web" },
+                { t: "Xx", g: "/ks/ (Box)", r: "📦", audio: "Box" },
+                { t: "Yy", g: "/y/ (Yo-yo)", r: "🪀", audio: "Yo-yo" },
+                { t: "Zz", g: "/z/ (Zebra)", r: "🦓", audio: "Zebra" }
             ],
             level2: [
-                { text: "at", guide: "The Bridge: Blend /æ/ + /t/", reward: "🔗" },
-                { text: "cat", guide: "c - at (/k/ + /æt/)", reward: "🐱" },
-                { text: "bat", guide: "b - at (/b/ + /æt/)", reward: "🦇" },
-                { text: "mat", guide: "m - at (/m/ + /æt/)", reward: "🧘" }
+                // AT Family
+                { t: "cat", g: "c-at", r: "🐱", audio: "Cat" },
+                { t: "bat", g: "b-at", r: "🦇", audio: "Bat" },
+                { t: "hat", g: "h-at", r: "🎩", audio: "Hat" },
+                { t: "mat", g: "m-at", r: "🧘", audio: "Mat" },
+                { t: "rat", g: "r-at", r: "🐀", audio: "Rat" },
+                // AN Family
+                { t: "pan", g: "p-an", r: "🍳", audio: "Pan" },
+                { t: "fan", g: "f-an", r: "💨", audio: "Fan" },
+                { t: "van", g: "v-an", r: "🚐", audio: "Van" },
+                // IP Family
+                { t: "zip", g: "z-ip", r: "🤐", audio: "Zip" },
+                { t: "lip", g: "l-ip", r: "👄", audio: "Lip" },
+                { t: "rip", g: "r-ip", r: "📄", audio: "Rip" },
+                // OG/UG Family
+                { t: "dog", g: "d-og", r: "🐶", audio: "Dog" },
+                { t: "log", g: "l-og", r: "🪵", audio: "Log" },
+                { t: "bug", g: "b-ug", r: "🪲", audio: "Bug" },
+                { t: "mug", g: "m-ug", r: "☕", audio: "Mug" }
             ],
             level3: [
-                { text: "sip", guide: "s - ip (/s/ + /ɪp/)", reward: "🥤" },
-                { text: "top", guide: "t - op (/t/ + /ɒp/)", reward: "🔝" },
-                { text: "sun", guide: "s - un (/s/ + /ʌn/)", reward: "☀️" }
+                { t: "ship", g: "sh-ip", r: "🚢", audio: "Ship" },
+                { t: "fish", g: "f-ish", r: "🐟", audio: "Fish" },
+                { t: "chop", g: "ch-op", r: "🪓", audio: "Chop" },
+                { t: "frog", g: "fr-og", r: "🐸", audio: "Frog" },
+                { t: "stop", g: "st-op", r: "🛑", audio: "Stop" },
+                { t: "star", g: "st-ar", r: "⭐", audio: "Star" },
+                { t: "blue", g: "bl-ue", r: "🔵", audio: "Blue" },
+                { t: "flag", g: "fl-ag", r: "🏁", audio: "Flag" },
+                { t: "tree", g: "tr-ee", r: "🌳", audio: "Tree" },
+                { t: "duck", g: "d-uck", r: "🦆", audio: "Duck" }
             ],
             level4: [
-                { text: "a cat", guide: "Sight word 'a' ... then 'cat'", reward: "🐈" },
-                { text: "cat sat", guide: "Read: /kæt/ /sæt/", reward: "🪑" }
+                { t: "a big cat", g: "Sight words + CVC", r: "🐆", audio: "A big cat" },
+                { t: "the red hen", g: "the... red... hen", r: "🐔", audio: "The red hen" },
+                { t: "I see a dog", g: "I... see... a... dog", r: "🐕", audio: "I see a dog" },
+                { t: "sun is hot", g: "sun... is... hot", r: "🥵", audio: "Sun is hot" },
+                { t: "run to me", g: "run... to... me", r: "🏃", audio: "Run to me" },
+                { t: "cat on a mat", g: "cat... on... a... mat", r: "🛋️", audio: "Cat on a mat" }
             ]
         };
 
         // --- GAME LOGIC ---
-        let currentLevelData = [];
-        let currentIndex = 0;
+        let currentList = [];
+        let index = 0;
+        let synthesis = window.speechSynthesis;
+
+        // Shuffle Function (Fisher-Yates)
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
 
         function showMenu() {
             document.getElementById('menu-screen').classList.remove('hidden');
             document.getElementById('game-screen').classList.add('hidden');
+            synthesis.cancel();
         }
 
-        function startGame(levelKey) {
-            currentLevelData = gameData[levelKey];
-            currentIndex = 0;
+        function startGame(lvl) {
+            // 1. Load Data
+            // We use spread syntax [...] to copy the array so we don't mess up the original order permanently
+            let rawData = [...gameData[lvl]];
+
+            // 2. Logic: Shuffle everything EXCEPT Level 1 (Alphabet should be ordered)
+            if (lvl === 'level1') {
+                currentList = rawData; 
+            } else {
+                currentList = shuffle(rawData);
+            }
+
+            index = 0;
             document.getElementById('menu-screen').classList.add('hidden');
             document.getElementById('game-screen').classList.remove('hidden');
             loadCard();
         }
 
         function loadCard() {
-            const item = currentLevelData[currentIndex];
+            const item = currentList[index];
             
-            // 1. Set the Word
-            document.getElementById('word-display').innerText = item.text;
+            // Text Size Adjustment (Smaller for sentences)
+            const displayEl = document.getElementById('word-display');
+            displayEl.innerText = item.t;
+            if (item.t.length > 5) { displayEl.style.fontSize = "60px"; }
+            else { displayEl.style.fontSize = "85px"; }
+
+            // Parent Guide
+            document.getElementById('guide-text').innerText = item.g;
             
-            // 2. Set the Parent Guide
-            document.getElementById('guide-text').innerHTML = "<b>👨‍🏫 Parent Guide:</b> " + item.guide;
-            
-            // 3. Hide Reward & Show Check Button
+            // Progress Counter
+            document.getElementById('progress').innerText = `Card ${index + 1} of ${currentList.length}`;
+
+            // Reset State
             document.getElementById('reward-area').classList.add('hidden');
-            document.getElementById('reward-area').innerText = item.reward;
+            document.getElementById('reward-area').innerText = item.r;
             document.getElementById('check-btn').classList.remove('hidden');
             document.getElementById('nav-buttons').classList.add('hidden');
         }
 
+        function playHelpAudio() {
+            // Reads the 'audio' property (e.g., "Apple" instead of just "A")
+            const item = currentList[index];
+            let utterance = new SpeechSynthesisUtterance(item.audio);
+            utterance.rate = 0.85; 
+            synthesis.cancel();
+            synthesis.speak(utterance);
+        }
+
         function checkAnswer() {
-            // Reveal the reward!
             document.getElementById('reward-area').classList.remove('hidden');
             document.getElementById('check-btn').classList.add('hidden');
             document.getElementById('nav-buttons').classList.remove('hidden');
+
+            // 3x Repeat Loop
+            const textToRead = currentList[index].audio;
+            synthesis.cancel();
+            let count = 0;
             
-            // Optional: Speak the word using browser voice
-            const msg = new SpeechSynthesisUtterance(currentLevelData[currentIndex].text);
-            window.speechSynthesis.speak(msg);
+            function speakLoop() {
+                if(count < 3) {
+                    let u = new SpeechSynthesisUtterance(textToRead);
+                    u.rate = 0.9;
+                    u.pitch = 1.1;
+                    u.onend = function() { setTimeout(speakLoop, 500); };
+                    synthesis.speak(u);
+                    count++;
+                }
+            }
+            speakLoop();
         }
 
         function nextWord() {
-            currentIndex++;
-            if (currentIndex >= currentLevelData.length) {
-                alert("🎉 Level Complete! High Five!");
+            synthesis.cancel();
+            index++;
+            if (index >= currentList.length) {
+                // End of Level
+                let u = new SpeechSynthesisUtterance("You finished the whole level! Great job!");
+                synthesis.speak(u);
+                alert("🎉 LEVEL COMPLETE! You are a reading genius!");
                 showMenu();
             } else {
                 loadCard();
