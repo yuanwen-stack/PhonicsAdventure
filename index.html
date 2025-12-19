@@ -3,91 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Phonics Master Custom</title>
+    <title>Phonics Pro V3</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #F0F4C3; text-align: center; margin: 0; padding: 15px; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Arial Rounded MT Bold', 'Verdana', sans-serif; background-color: #E8F5E9; text-align: center; margin: 0; padding: 15px; -webkit-tap-highlight-color: transparent; }
         
         .game-card {
             background: white;
             max-width: 600px;
             margin: 0 auto;
-            border-radius: 30px;
+            border-radius: 25px;
             padding: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border: 6px solid #AFB42B;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+            border: 5px solid #4CAF50;
             min-height: 85vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
-        h1 { color: #827717; margin: 0 0 10px 0; font-size: 24px; }
-        
-        /* The Main Letters */
+        h1 { color: #2E7D32; margin: 0 0 15px 0; font-size: 24px; }
+
+        /* The Word Display */
         #word-display {
-            font-size: 90px;
+            font-size: 85px;
             font-weight: 900;
             color: #333;
-            margin: 10px 0;
-            letter-spacing: 2px;
+            margin: 15px 0;
+            line-height: 1;
         }
-        
-        /* Extra Examples Text */
-        .examples { font-size: 18px; color: #777; margin-bottom: 20px; font-style: italic; min-height: 25px; }
 
-        /* Parent Guide */
+        /* The Reward Area (Emojis) */
+        #reward-area { 
+            font-size: 90px; 
+            margin: 15px 0; 
+            letter-spacing: 20px;
+            animation: bounceIn 0.8s;
+        }
+        @keyframes bounceIn { 0% { transform: scale(0); } 60% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+        /* Guide Box */
         .guide-box {
-            background: #FFF9C4;
-            border: 2px solid #FBC02D;
-            color: #E65100;
-            padding: 12px 15px;
+            background: #FFFDE7;
+            border: 2px solid #FFD600;
+            color: #F57F17;
+            padding: 10px 15px;
             text-align: left;
-            font-size: 18px;
-            border-radius: 15px;
+            font-size: 16px;
+            border-radius: 12px;
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
+        /* Audio Button */
         .audio-btn {
             background: #FFECB3;
-            border: 2px solid #FFD54F;
+            border: 2px solid #FFC107;
             border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            font-size: 22px;
+            width: 44px;
+            height: 44px;
+            font-size: 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        /* Buttons */
+        /* Action Buttons */
         button.action-btn {
             font-size: 22px;
-            padding: 16px 0;
+            padding: 18px 0;
             border-radius: 50px;
             border: none;
             cursor: pointer;
-            margin: 8px 0;
+            margin: 10px 0;
             font-weight: bold;
             width: 100%;
             color: white;
             box-shadow: 0 5px rgba(0,0,0,0.2);
             transition: all 0.1s;
         }
-        button.action-btn:active { transform: scale(0.98); box-shadow: 0 2px rgba(0,0,0,0.2); }
+        button.action-btn:active { transform: scale(0.97); }
         
-        .btn-check { background-color: #689F38; }
-        .btn-next { background-color: #0288D1; }
-        .menu-btn { background-color: #009688; color: white; margin: 8px 0; padding: 15px; width: 100%; border-radius: 15px; border:none; font-weight:bold; font-size: 18px; cursor: pointer; box-shadow: 0 4px #00796B; }
-
-        /* Reward Emoji */
-        #reward-area { font-size: 110px; animation: popIn 0.6s; margin: 10px 0; }
-        @keyframes popIn { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+        .btn-check { background-color: #00C853; }
+        .btn-next { background-color: #2979FF; }
+        
+        .menu-btn { 
+            background-color: #009688; 
+            color: white; 
+            margin: 8px 0; 
+            padding: 15px; 
+            width: 100%; 
+            border-radius: 15px; 
+            border:none; 
+            font-weight:bold; 
+            font-size: 18px; 
+            box-shadow: 0 4px #00796B; 
+            cursor: pointer;
+        }
 
         .hidden { display: none; }
+        .example-text { color: #777; font-style: italic; font-size: 16px; margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -95,30 +112,31 @@
     <div class="game-card">
         
         <div id="menu-screen">
-            <h1>📚 Phonics Master</h1>
-            <p>Choose a Stage:</p>
-            <button class="menu-btn" onclick="startGame('level1')">Level 1: ABC Foundation</button>
-            <button class="menu-btn" onclick="startGame('level2')">Level 2: Blending (P-an)</button>
-            <button class="menu-btn" onclick="startGame('level3')">Level 3: Full Words</button>
-            <button class="menu-btn" onclick="startGame('level4')">Level 4: Slow Sentences</button>
+            <h1>🦁 Phonics Pro</h1>
+            <p>Select Stage:</p>
+            <button class="menu-btn" onclick="startGame('level1')">Level 1: Sounds & Pictures (A-Z)</button>
+            <button class="menu-btn" onclick="startGame('level2')">Level 2: Basic Blending (P-an)</button>
+            <button class="menu-btn" onclick="startGame('level3')">Level 3: Blends (St-op)</button>
+            <button class="menu-btn" onclick="startGame('level4')">Level 4: Sentences</button>
         </div>
 
         <div id="game-screen" class="hidden">
-            <div id="progress" style="font-size:12px; color:#999; text-align:right;"></div>
+            <div id="progress" style="font-size:12px; color:#aaa; text-align:right;"></div>
 
             <div class="guide-box">
                 <div>
-                    <span style="font-size:11px; display:block; color:#F57F17; font-weight:bold;">TEACH THIS:</span>
+                    <span style="font-size:10px; display:block; color:#F9A825; font-weight:bold;">SAY THIS:</span>
                     <span id="guide-text" style="font-weight:bold;"></span>
                 </div>
-                <button class="audio-btn" onclick="playAudio(false)" title="Help Me Read">🔊</button>
+                <button class="audio-btn" onclick="playAudio(false)">🔊</button>
             </div>
 
             <div id="word-display"></div>
-            <div id="example-text" class="examples"></div>
+            <div id="example-text" class="example-text"></div>
+            
             <div id="reward-area" class="hidden"></div>
 
-            <button id="check-btn" class="action-btn btn-check" onclick="checkAnswer()">Check Answer! ✨</button>
+            <button id="check-btn" class="action-btn btn-check" onclick="checkAnswer()">Show Pictures! ✨</button>
             
             <div id="nav-buttons" class="hidden">
                 <button class="action-btn btn-next" onclick="nextWord()">Next Card ➡️</button>
@@ -131,49 +149,70 @@
     </div>
 
     <script>
-        /* --- CUSTOM AUDIO SCRIPT ---
-           This is where we control EXACTLY what the computer says.
-           - level1: "Letter A... A for Apple"
-           - level2: "P... an... Pan"
-           - level4: Slower speed
+        /* AUDIO RULES:
+           1. Level 1: "Buh... B for Ball... B for Bus"
+           2. Level 3: "St... op... Stop" (Grouping the blend)
+           3. Level 4: Speed 0.85 (Faster)
         */
         const gameData = {
             level1: [
-                { t: "Aa", g: "Name: Ay, Sound: /æ/", r: "🍎", ex: "Also: Ant, Arrow", audio: "Letter A. A is for Apple. A is for Ant." },
-                { t: "Bb", g: "Name: Bee, Sound: /b/", r: "⚽", ex: "Also: Bear, Bus", audio: "Letter B. B is for Ball. B is for Bear." },
-                { t: "Cc", g: "Name: Cee, Sound: /k/", r: "🐱", ex: "Also: Car, Cake", audio: "Letter C. C is for Cat. C is for Car." },
-                { t: "Dd", g: "Name: Dee, Sound: /d/", r: "🐶", ex: "Also: Duck, Door", audio: "Letter D. D is for Dog. D is for Duck." },
-                { t: "Ee", g: "Name: Ee, Sound: /e/", r: "🥚", ex: "Also: Elephant", audio: "Letter E. E is for Egg. E is for Elephant." },
-                { t: "Ff", g: "Name: Eff, Sound: /f/", r: "🐟", ex: "Also: Fan, Five", audio: "Letter F. F is for Fish. F is for Fan." },
-                { t: "Gg", g: "Name: Jee, Sound: /g/", r: "🐐", ex: "Also: Girl, Gate", audio: "Letter G. G is for Goat. G is for Girl." },
-                { t: "Hh", g: "Name: Aitch, Sound: /h/", r: "🎩", ex: "Also: House, Hen", audio: "Letter H. H is for Hat. H is for House." },
-                { t: "Ii", g: "Name: Eye, Sound: /i/", r: "🧊", ex: "Also: Insect, Ink", audio: "Letter I. I is for Igloo. I is for Insect." },
-                // ... You can add J-Z here following the pattern ...
-                { t: "Pp", g: "Name: Pee, Sound: /p/", r: "🐷", ex: "Also: Pen, Pot", audio: "Letter P. P is for Pig. P is for Pen." },
-                { t: "Ss", g: "Name: Ess, Sound: /s/", r: "🐍", ex: "Also: Sock, Six", audio: "Letter S. S is for Sun. S is for Sock." },
-                { t: "Tt", g: "Name: Tee, Sound: /t/", r: "🐯", ex: "Also: Ten, Top", audio: "Letter T. T is for Tiger. T is for Ten." }
+                { t: "Aa", g: "/æ/ (Apple, Ant)", r: "🍎 🐜", ex: "Apple, Ant", audio: "Ah... A for Apple... A for Ant" },
+                { t: "Bb", g: "/b/ (Ball, Bus)", r: "⚽ 🚌", ex: "Ball, Bus", audio: "Buh... B for Ball... B for Bus" },
+                { t: "Cc", g: "/k/ (Cat, Cake)", r: "🐱 🎂", ex: "Cat, Cake", audio: "Kuh... C for Cat... C for Cake" },
+                { t: "Dd", g: "/d/ (Dog, Door)", r: "🐶 🚪", ex: "Dog, Door", audio: "Duh... D for Dog... D for Door" },
+                { t: "Ee", g: "/e/ (Egg, Elephant)", r: "🥚 🐘", ex: "Egg, Elephant", audio: "Eh... E for Egg... E for Elephant" },
+                { t: "Ff", g: "/f/ (Fish, Fan)", r: "🐟 💨", ex: "Fish, Fan", audio: "Fff... F for Fish... F for Fan" },
+                { t: "Gg", g: "/g/ (Goat, Gift)", r: "🐐 🎁", ex: "Goat, Gift", audio: "Guh... G for Goat... G for Gift" },
+                { t: "Hh", g: "/h/ (Hat, House)", r: "🎩 🏠", ex: "Hat, House", audio: "Huh... H for Hat... H for House" },
+                { t: "Ii", g: "/i/ (Igloo, Ink)", r: "🧊 ✒️", ex: "Igloo, Ink", audio: "Ih... I for Igloo... I for Ink" },
+                { t: "Jj", g: "/j/ (Jam, Jet)", r: "🍯 ✈️", ex: "Jam, Jet", audio: "Juh... J for Jam... J for Jet" },
+                { t: "Kk", g: "/k/ (Kite, Key)", r: "Vk 🔑", ex: "Kite, Key", audio: "Kuh... K for Kite... K for Key" },
+                { t: "Ll", g: "/l/ (Lion, Leaf)", r: "🦁 🍃", ex: "Lion, Leaf", audio: "Lll... L for Lion... L for Leaf" },
+                { t: "Mm", g: "/m/ (Moon, Mouse)", r: "🌙 🐭", ex: "Moon, Mouse", audio: "Mmm... M for Moon... M for Mouse" },
+                { t: "Nn", g: "/n/ (Net, Nest)", r: "🥅 🪺", ex: "Net, Nest", audio: "Nnn... N for Net... N for Nest" },
+                { t: "Oo", g: "/o/ (Octopus, Orange)", r: "🐙 🍊", ex: "Octopus, Orange", audio: "Ah... O for Octopus... O for Orange" },
+                { t: "Pp", g: "/p/ (Pig, Pen)", r: "🐷 🖊️", ex: "Pig, Pen", audio: "Puh... P for Pig... P for Pen" },
+                { t: "Qq", g: "/kw/ (Queen, Quilt)", r: "👑 🛌", ex: "Queen, Quilt", audio: "Kwuh... Q for Queen... Q for Quilt" },
+                { t: "Rr", g: "/r/ (Rainbow, Robot)", r: "🌈 🤖", ex: "Rainbow, Robot", audio: "Rrr... R for Rainbow... R for Robot" },
+                { t: "Ss", g: "/s/ (Sun, Snake)", r: "☀️ 🐍", ex: "Sun, Snake", audio: "Sss... S for Sun... S for Snake" },
+                { t: "Tt", g: "/t/ (Tiger, Tent)", r: "🐯 ⛺", ex: "Tiger, Tent", audio: "Tuh... T for Tiger... T for Tent" },
+                { t: "Uu", g: "/u/ (Umbrella, Up)", r: "☂️ ⬆️", ex: "Umbrella, Up", audio: "Uh... U for Umbrella... U for Up" },
+                { t: "Vv", g: "/v/ (Van, Violin)", r: "🚐 🎻", ex: "Van, Violin", audio: "Vvv... V for Van... V for Violin" },
+                { t: "Ww", g: "/w/ (Web, Watch)", r: "🕸️ ⌚", ex: "Web, Watch", audio: "Wuh... W for Web... W for Watch" },
+                { t: "Xx", g: "/ks/ (Box, Fox)", r: "📦 🦊", ex: "Box, Fox", audio: "Kss... Box... Fox" },
+                { t: "Yy", g: "/y/ (Yo-yo, Yellow)", r: "🪀 🟡", ex: "Yo-yo, Yellow", audio: "Yuh... Y for Yo-yo... Y for Yellow" },
+                { t: "Zz", g: "/z/ (Zebra, Zip)", r: "🦓 🤐", ex: "Zebra, Zip", audio: "Zzz... Z for Zebra... Z for Zip" }
             ],
             level2: [
-                // AN Family
-                { t: "pan", g: "p-an (peh-an)", r: "🍳", ex: "Family: -an", audio: "P... an... Pan." },
-                { t: "fan", g: "f-an (fff-an)", r: "💨", ex: "Family: -an", audio: "Fff... an... Fan." },
-                { t: "man", g: "m-an (mmm-an)", r: "👨", ex: "Family: -an", audio: "Mmm... an... Man." },
-                { t: "can", g: "c-an (kuh-an)", r: "🥫", ex: "Family: -an", audio: "Kuh... an... Can." },
-                // AT Family
-                { t: "cat", g: "c-at (kuh-at)", r: "🐱", ex: "Family: -at", audio: "Kuh... at... Cat." },
-                { t: "bat", g: "b-at (buh-at)", r: "🦇", ex: "Family: -at", audio: "Buh... at... Bat." },
-                { t: "hat", g: "h-at (huh-at)", r: "🎩", ex: "Family: -at", audio: "Huh... at... Hat." }
+                { t: "cat", g: "c-at (kuh-at)", r: "🐱", ex: "", audio: "Kuh... at... Cat" },
+                { t: "bat", g: "b-at (buh-at)", r: "🦇", ex: "", audio: "Buh... at... Bat" },
+                { t: "rat", g: "r-at (ruh-at)", r: "🐀", ex: "", audio: "Rrr... at... Rat" },
+                { t: "pan", g: "p-an (puh-an)", r: "🍳", ex: "", audio: "Puh... an... Pan" },
+                { t: "man", g: "m-an (mmm-an)", r: "👨", ex: "", audio: "Mmm... an... Man" },
+                { t: "fan", g: "f-an (fff-an)", r: "💨", ex: "", audio: "Fff... an... Fan" },
+                { t: "dog", g: "d-og (duh-og)", r: "🐶", ex: "", audio: "Duh... og... Dog" },
+                { t: "log", g: "l-og (lll-og)", r: "🪵", ex: "", audio: "Lll... og... Log" },
+                { t: "bug", g: "b-ug (buh-ug)", r: "🪲", ex: "", audio: "Buh... ug... Bug" }
             ],
             level3: [
-                { t: "frog", g: "fr-og", r: "🐸", ex: "Blend: fr", audio: "Frrr... og... Frog." },
-                { t: "stop", g: "st-op", r: "🛑", ex: "Blend: st", audio: "Sttt... op... Stop." },
-                { t: "ship", g: "sh-ip", r: "🚢", ex: "Digraph: sh", audio: "Shhh... ip... Ship." },
-                { t: "duck", g: "d-uck", r: "🦆", ex: "End sound: ck", audio: "Duh... uck... Duck." }
+                // BLENDS (Grouped by Sound)
+                { t: "stop", g: "st-op", r: "🛑", ex: "Blend: st", audio: "St... op... Stop" },
+                { t: "frog", g: "fr-og", r: "🐸", ex: "Blend: fr", audio: "Fr... og... Frog" },
+                { t: "ship", g: "sh-ip", r: "🚢", ex: "Digraph: sh", audio: "Sh... ip... Ship" },
+                { t: "chop", g: "ch-op", r: "🪓", ex: "Digraph: ch", audio: "Ch... op... Chop" },
+                { t: "fish", g: "fi-sh", r: "🐟", ex: "Digraph: sh", audio: "Fi... sh... Fish" },
+                { t: "blue", g: "bl-ue", r: "🔵", ex: "Blend: bl", audio: "Bl... ue... Blue" },
+                { t: "flag", g: "fl-ag", r: "🏁", ex: "Blend: fl", audio: "Fl... ag... Flag" },
+                { t: "swim", g: "sw-im", r: "🏊", ex: "Blend: sw", audio: "Sw... im... Swim" }
             ],
             level4: [
-                { t: "The cat sat.", g: "the... cat... sat", r: "🐈", ex: "Simple Sentence", audio: "The... cat... sat." },
-                { t: "I see a dog.", g: "I... see... a... dog", r: "🐕", ex: "Simple Sentence", audio: "I... see... a... dog." },
-                { t: "The sun is hot.", g: "the... sun... is... hot", r: "🥵", ex: "Simple Sentence", audio: "The... sun... is... hot." }
+                // FASTER SENTENCES (0.85 Speed)
+                { t: "A big cat", g: "a... big... cat", r: "🐆", ex: "", audio: "A big cat" },
+                { t: "The red hen", g: "the... red... hen", r: "🐔", ex: "", audio: "The red hen" },
+                { t: "I see a dog", g: "I... see... a... dog", r: "🐕", ex: "", audio: "I see a dog" },
+                { t: "The sun is hot", g: "the... sun... is... hot", r: "🥵", ex: "", audio: "The sun is hot" },
+                { t: "Run to me", g: "run... to... me", r: "🏃", ex: "", audio: "Run to me" },
+                { t: "Cat on a mat", g: "cat... on... a... mat", r: "🛋️", ex: "", audio: "Cat on a mat" }
             ]
         };
 
@@ -195,13 +234,13 @@
 
         function startGame(lvl) {
             currentLevelKey = lvl;
-            // Level 1: Keep Order (A-Z). Others: Shuffle.
             if(lvl === 'level1') {
+                // Level 1: Always A to Z order
                 currentList = [...gameData[lvl]];
             } else {
+                // Others: Random shuffle
                 currentList = shuffle([...gameData[lvl]]);
             }
-            
             index = 0;
             document.getElementById('menu-screen').classList.add('hidden');
             document.getElementById('game-screen').classList.remove('hidden');
@@ -210,18 +249,17 @@
 
         function loadCard() {
             const item = currentList[index];
-            
-            // Adjust Font Size for Sentences
             const displayEl = document.getElementById('word-display');
+            
+            // Adjust text size based on length
             displayEl.innerText = item.t;
-            if (currentLevelKey === 'level4') { displayEl.style.fontSize = "50px"; }
-            else { displayEl.style.fontSize = "90px"; }
+            if (item.t.length > 8) { displayEl.style.fontSize = "50px"; }
+            else { displayEl.style.fontSize = "85px"; }
 
             document.getElementById('guide-text').innerText = item.g;
-            document.getElementById('example-text').innerText = item.ex; // Show extra examples
+            document.getElementById('example-text').innerText = item.ex; 
             document.getElementById('progress').innerText = `${index + 1} / ${currentList.length}`;
 
-            // Reset UI
             document.getElementById('reward-area').classList.add('hidden');
             document.getElementById('reward-area').innerText = item.r;
             document.getElementById('check-btn').classList.remove('hidden');
@@ -231,36 +269,35 @@
         function playAudio(isRepeater) {
             synthesis.cancel();
             const item = currentList[index];
+            // Use the specific audio text we wrote in gameData
             const u = new SpeechSynthesisUtterance(item.audio);
             
-            // --- EXPERT SPEED SETTINGS ---
+            // --- SPEED SETTINGS ---
             if (currentLevelKey === 'level4') {
-                u.rate = 0.6; // Very Slow for Sentences
-            } else if (currentLevelKey === 'level2') {
-                u.rate = 0.8; // Slow for Blending (P... an)
+                u.rate = 0.85; // Faster Sentences (User Request)
+            } else if (currentLevelKey === 'level3') {
+                u.rate = 0.8; // Clear Blends
             } else {
-                u.rate = 0.9; // Normalish for ABC
+                u.rate = 0.9; // Standard
             }
+            
+            u.pitch = 1.1; // Friendly pitch
 
-            u.pitch = 1.1; // Friendly tone
-
-            // If it's the 3x Repeater, loop it
             if(isRepeater) {
+                // Play 3 times logic
                 let count = 0;
                 function speakLoop() {
                     if(count < 3) {
                         synthesis.speak(u);
-                        // We need to create a new utterance object for loop to work reliably on some browsers
                         let u2 = new SpeechSynthesisUtterance(item.audio);
                         u2.rate = u.rate; u2.pitch = u.pitch;
-                        u2.onend = function() { setTimeout(speakLoop, 800); }; // Pause between repeats
+                        u2.onend = function() { setTimeout(speakLoop, 800); };
                         u = u2; 
                         count++;
                     }
                 }
                 speakLoop();
             } else {
-                // Just play once (Help button)
                 synthesis.speak(u);
             }
         }
@@ -269,16 +306,14 @@
             document.getElementById('reward-area').classList.remove('hidden');
             document.getElementById('check-btn').classList.add('hidden');
             document.getElementById('nav-buttons').classList.remove('hidden');
-            
-            // Play the "Master Audio" 3 times
-            playAudio(true);
+            playAudio(true); // Trigger the 3x repeat
         }
 
         function nextWord() {
             synthesis.cancel();
             index++;
             if (index >= currentList.length) {
-                alert("🎉 LEVEL COMPLETE! You are a superstar!");
+                alert("🎉 LEVEL COMPLETE! Amazing job!");
                 showMenu();
             } else {
                 loadCard();
