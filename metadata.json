@@ -1,0 +1,7 @@
+{
+  "name": "Phonics Adventure Engine",
+  "description": "An interactive Synthetic Phonics learning app for children, featuring AI-driven lessons, reading guides for parents, and high-energy rewards.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
